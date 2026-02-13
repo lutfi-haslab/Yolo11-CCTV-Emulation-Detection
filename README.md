@@ -2,6 +2,8 @@
 
 This project emulates a 5-camera CCTV system derived from a single webcam or simulation, using YOLO11 for object detection (detecting People, Masks, and Caps).
 
+![CCTV Monitor](monitor.png)
+
 ## Prerequisites
 
 - Python 3.8+
