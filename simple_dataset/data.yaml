@@ -1,0 +1,7 @@
+names:
+  0: person
+  1: mask
+  2: cap
+path: /Users/hy4-mac-002/hasdev/myEaiApp/simple_dataset
+train: Train.txt
+val: Val.txt
