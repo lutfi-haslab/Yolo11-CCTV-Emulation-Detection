@@ -34,7 +34,7 @@ A complete AI pipeline for detecting **Persons**, **Masks**, and **Caps** in a C
 ## 📦 Project Structure
 
 ```
-myEaiApp/
+yolo-cctv/
 ├── images/                  # Source images for training
 ├── labeled_dataset/         # Exported dataset ready for YOLO training
 ├── simple_dataset/          # Original pre-labeled dataset
@@ -177,11 +177,11 @@ _Figure: CCTV Emulation connected to the Streaming Server with 5 distinct feeds.
 ## Test Model
 
 ```bash
-(venv) hy4-mac-002@HY4-MAC-4 myEaiApp % python src/test.py --model /Users/hy4-mac-002/hasdev/myEaiApp/runs/detect/labeled_model/weights/best.pt
+(venv) hy4-mac-002@HY4-MAC-4 yolo-cctv % python src/test.py --model /Users/hy4-mac-002/hasdev/yolo-cctv/runs/detect/labeled_model/weights/best.pt
 ============================================================
 🔍 YOLO Inference
 ============================================================
-  🧠 Model:      /Users/hy4-mac-002/hasdev/myEaiApp/runs/detect/labeled_model/weights/best.pt
+  🧠 Model:      /Users/hy4-mac-002/hasdev/yolo-cctv/runs/detect/labeled_model/weights/best.pt
   🎯 Confidence: 0.25
   📐 Image Size: 640
   💻 Device:     auto
@@ -189,7 +189,7 @@ _Figure: CCTV Emulation connected to the Streaming Server with 5 distinct feeds.
 
 🏷️  Classes: {0: 'person', 1: 'mask', 2: 'cap'}
 
-📂 Testing 15 images from: /Users/hy4-mac-002/hasdev/myEaiApp/images
+📂 Testing 15 images from: /Users/hy4-mac-002/hasdev/yolo-cctv/images
 
 📷 img_01.png:
    ✅ person (53.62%) [118,29,218,390]

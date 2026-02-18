@@ -4,8 +4,8 @@
     "mask",
     "person"
   ],
-  "images_dir": "/Users/hy4-mac-002/hasdev/myEaiApp/images",
-  "output_dir": "/Users/hy4-mac-002/hasdev/myEaiApp/labeled_dataset",
+  "images_dir": "/Users/hy4-mac-002/hasdev/yolo-cctv/images",
+  "output_dir": "/Users/hy4-mac-002/hasdev/yolo-cctv/labeled_dataset",
   "last_image_index": 14,
   "train_split": 0.8,
   "image_size": 640

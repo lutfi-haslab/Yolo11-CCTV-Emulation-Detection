@@ -75,7 +75,7 @@ def main():
         model_path = model_rpath
     else:
         # Fallback to the hardcoded path if relative fails for some reason (e.g. run from weird CWD)
-        model_path = "/Users/hy4-mac-002/hasdev/myEaiApp/runs/detect/labeled_model/weights/best.pt"
+        model_path = "/Users/hy4-mac-002/hasdev/yolo-cctv/runs/detect/labeled_model/weights/best.pt"
 
     try:
         model = YOLO(model_path)
