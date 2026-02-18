@@ -96,10 +96,20 @@ validate: $(VENV)/bin/activate ## Run YOLO validation metrics
 # CCTV EMULATION
 # ============================================================
 
+
+
 .PHONY: cctv
 cctv: $(VENV)/bin/activate ## Run the 5-camera CCTV emulation
-	@echo "📹 Starting CCTV Emulation..."
+	@echo "📹 Starting CCTV Emulation (Default: Webcam)..."
+	@echo "   Press 's' in the window to toggle between Webcam and Stream."
+	@echo "   Ensure streaming server is running ('make stream') if switching to stream."
 	$(PY) src/cctv_emulation.py
+
+.PHONY: stream
+stream: $(VENV)/bin/activate ## Run just the IP Camera Streaming Server
+	@echo "� Starting Streaming Server at http://0.0.0.0:5001..."
+	$(PY) src/stream_server.py
+
 
 # ============================================================
 # UTILITIES

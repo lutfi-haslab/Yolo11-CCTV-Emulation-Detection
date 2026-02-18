@@ -15,6 +15,7 @@ A complete AI pipeline for detecting **Persons**, **Masks**, and **Caps** in a C
   - `2`: Cap 🧢
 - **CCTV Emulation**: Simulates a 5-camera control room feed with:
   - Real-time webcam processing.
+  - **IP Camera / Stream Support**: Connect to external RTSP or HTTP streams.
   - Simulated "No Signal" feeds.
   - **Violation Detection**: Automatically flags persons without mask or cap in **RED**.
   - System stats display (FPS, CPU, RAM).
@@ -117,7 +118,51 @@ make cctv
 
 **Controls**:
 
-- Press `q` to quit.
+**Controls / Key Shortcuts**:
+
+- `q`: **Quit** the application.
+- `s`: **Switch Source** between Local Webcam (0) and IP Stream.
+
+---
+
+### 6. Streaming Server (Optional) 📡
+
+You can run a standalone MJPEG streaming server to simulate a multi-camera IP system. This server takes your single webcam and multiplexes it into **5 distinct video feeds**, each with unique labels to simulate different locations.
+
+**Option A: Run Server Only**
+
+```bash
+make stream-server
+# Server runs at http://localhost:5001
+# Feeds available at: /video_feed_1 ... /video_feed_5
+```
+
+**Option B: Run Server + Client**
+
+```bash
+make stream
+# Starts the server AND automatically launches the CCTV client connected to all 5 streams.
+```
+
+**Manual Stream Configuration**:
+You can manually configure your real RTSP or IPTV sources in `src/cctv_emulation.py`.
+Open the file and modify the `STREAM_SOURCES` list at the top:
+
+```python
+STREAM_SOURCES = [
+    "rtsp://admin:1234@192.168.1.10:554/stream1",  # CAM 01
+    "http://192.168.1.11:8080/video",              # CAM 02
+    # ...
+]
+```
+
+**Technical Note**:
+
+- **Webcam Mode**: Optimized to process the frame once and replicate it to maintain high FPS (30+).
+- **Stream Mode**: Uses **Round-Robin Detection** (processing one camera per frame cycle) to simulate a realistic heavy-load environment while maintaining UI responsiveness.
+
+![Streaming Mode](monitor_stream.png)
+_Figure: CCTV Emulation connected to the Streaming Server with 5 distinct feeds._
 
 ---
 
