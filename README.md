@@ -1,80 +1,134 @@
-# CCTV Emulation & YOLO Object Detection
+# 📹 CCTV Emulation & YOLO11 Object Detection
 
-This project emulates a 5-camera CCTV system derived from a single webcam or simulation, using YOLO11 for object detection (detecting People, Masks, and Caps).
+A complete AI pipeline for detecting **Persons**, **Masks**, and **Caps** in a CCTV emulation environment. This project includes a custom **Data Labeling GUI**, **YOLO Training Scripts**, and a **5-Camera CCTV Emulation** system.
 
 ![CCTV Monitor](monitor.png)
 
-## Prerequisites
+---
 
-- Python 3.8+
-- Webcam (optional, defaults to simulation if not found)
+## 🚀 Features
 
-## Data Labeling
-
-The dataset for this project is simulated and labeled using [CVAT](https://app.cvat.ai/).
-
-- **Tool**: Computer Vision Annotation Tool (CVAT)
-- **Format**: YOLO 1.1
+- **Object Detection**: Start-of-the-art detection using **YOLO11**.
 - **Classes**:
-  - `0`: Person
-  - `1`: Mask
-  - `2`: Cap
+  - `0`: Person 👤
+  - `1`: Mask 😷
+  - `2`: Cap 🧢
+- **CCTV Emulation**: Simulates a 5-camera control room feed with:
+  - Real-time webcam processing.
+  - Simulated "No Signal" feeds.
+  - **Violation Detection**: Automatically flags persons without mask or cap in **RED**.
+  - System stats display (FPS, CPU, RAM).
+- **Custom Labeling Tool**: Built-in Python GUI for easy dataset creation.
 
-## Quick Start
+---
 
-1.  **Setup Environment**:
-    Run the setup script to create a virtual environment and install dependencies.
+## 🛠️ Prerequisites
 
-    ```bash
-    chmod +x setup_env.sh
-    ./setup_env.sh
-    ```
+- **Python 3.10+**
+- **Operating System**: macOS (M1/M2/M3 supported), Linux, or Windows.
+- **Webcam**: Required for live camera feed (optional for simulation mode).
 
-2.  **Activate Virtual Environment**:
+---
 
-    ```bash
-    source venv/bin/activate
-    ```
+## 📦 Project Structure
 
-3.  **Train the Model**:
-    Train the YOLO model on the dataset located in `simple_dataset/`.
+```
+myEaiApp/
+├── images/                  # Source images for training
+├── labeled_dataset/         # Exported dataset ready for YOLO training
+├── simple_dataset/          # Original pre-labeled dataset
+├── runs/                    # Trained models & checkpoints
+├── src/                     # Source Code
+│   ├── labeling_app.py      # 🏷️ Image Labeling GUI
+│   ├── cctv_emulation.py    # 📹 Main CCTV System
+│   ├── train.py             # 🏋️ Training Script
+│   └── test.py              # 🔍 Inference/Testing Script
+├── Makefile                 # ⚡ Task Runner
+├── requirements.txt         # Dependencies
+└── README.md                # Documentation
+```
 
-    ```bash
-    python train_cctv_model.py
-    ```
+---
 
-    This will save the trained model to `runs/detect/apd_bgn/cctv_model/weights/best.pt`.
+## ⚡ Quick Start
 
-4.  **Test the Model**:
-    Test the trained model on a sample image.
+We use `make` commands to simplify all workflows.
 
-    ```bash
-    python test_model.py
-    ```
+### 1. Setup Environment
 
-    Check `test_result.jpg` for the output.
+Create a virtual environment and install dependencies:
 
-5.  **Run CCTV Emulation**:
-    Run the main emulation script.
+```bash
+make setup
+```
 
-    ```bash
-    python cctv_emulation.py
-    ```
+### 2. Labeling Data 🏷️
 
-    - **Controls**: Press `q` to quit.
-    - **Features**:
-      - Simulates 5 camera feeds.
-      - Detects Persons, Masks, and Caps.
-      - Highlights violations (No Mask or No Cap) in Red.
-      - Displays System Stats (CPU, RAM).
+Launch the custom labeling tool to annotate your own images.
 
-## Project Structure
+```bash
+make label
+# Or: python src/labeling_app.py
+```
 
-- `cctv_emulation.py`: Main application script.
-- `train_cctv_model.py`: Script to train the YOLO model.
-- `test_model.py`: Script to test the trained model on static images.
-- `setup_yolo.py`: Verifies YOLO installation and downloads the base model.
-- `setup_env.sh`: Automates environment setup.
-- `requirements.txt`: Python dependencies.
-- `simple_dataset/`: Directory containing training data.
-- `runs/`: Directory containing training results and models.
+![Labeling App Preview](label_app_preview.png)
+
+**Labeling Workflow:**
+
+1.  **Add Labels**: Type `person`, `mask`, `cap` and click **Add**.
+2.  **Draw Boxes**: Select a label and click-drag on the image.
+3.  **Save**: Click "Save Annotations" (Ctrl+S).
+4.  **Export**: Click "Export YOLO Dataset" to generate the dataset in `labeled_dataset/`.
+
+> **Note**: The exporter automatically splits each image into 3 copies (one per label) to improve small object detection accuracy.
+
+### 3. Training the Model 🏋️
+
+Train YOLO11 on your dataset (or the provided `simple_dataset`).
+
+```bash
+# Default training (uses simple_dataset)
+make train
+
+# Custom training params
+make train EPOCHS=200 BATCH=8 DATA=labeled_dataset/data.yaml
+```
+
+- **Output**: Best model saved to `runs/detect/labeled_model/weights/best.pt`
+
+### 4. Testing & Validation 🔍
+
+Run inference on static images to verify accuracy.
+
+```bash
+make test
+# Or with specific confidence
+make test CONF=0.5
+```
+
+### 5. Run CCTV Emulation 📹
+
+Launch the 5-camera monitoring dashboard.
+
+```bash
+make cctv
+# Or: python src/cctv_emulation.py
+```
+
+**Controls**:
+
+- Press `q` to quit.
+
+---
+
+## 📊 Performance & Optimization
+
+- **Data Augmentation**: We split labels into separate image layers (`img_01_person.png`, `img_01_mask.png`) to ensure the model learns each class distinctly even with limited data.
+- **Mac M-Series Optimization**: Uses `mps` (Metal Performance Shaders) if available (auto-detected).
+- **Early Stopping**: Training stops automatically if no improvement for 50 epochs (configurable via `PATIENCE`).
+
+---
+
+## 📝 License
+
+This project is open-source and available for educational and research purposes.
