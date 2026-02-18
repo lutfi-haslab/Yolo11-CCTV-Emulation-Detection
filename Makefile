@@ -32,6 +32,10 @@ MODEL      ?=
 # ============================================================
 
 .PHONY: setup
+activate:
+	@echo "To activate the virtual environment, run:"
+	@echo "source $(VENV)/bin/activate"
+
 setup: $(VENV)/bin/activate ## Create venv and install all dependencies
 	@echo "✅ Setup complete! Run 'make help' to see available commands."
 

@@ -2,7 +2,7 @@ names:
   0: cap
   1: mask
   2: person
-path: /Users/hy4-mac-002/hasdev/yolo-cctv/labeled_dataset
+path: /Users/hy4-mac-002/hasdev/myEaiApp/yolo-cctv/labeled_dataset
 train: images/train
 val: images/val
 nc: 3
